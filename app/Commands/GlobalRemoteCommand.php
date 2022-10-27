@@ -16,7 +16,7 @@ class GlobalRemoteCommand extends Command
         $host = $this->option('host') ?? config('remote.default_host');
 
         if (! ($this->config->hosts[$host] ?? null)) {
-            $this->components->warn('The host does not exist: '.$host);
+            $this->components->warn('Host does not exist: '.$host);
 
             if (! $this->components->confirm('Would you like to create it?')) {
                 return 0;
