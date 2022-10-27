@@ -2,9 +2,9 @@
 
 namespace Spatie\GlobalLaravelRemote;
 
+use Spatie\GlobalLaravelRemote\Commands\GlobalLaravelRemoteCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Spatie\GlobalLaravelRemote\Commands\GlobalLaravelRemoteCommand;
 
 class GlobalLaravelRemoteServiceProvider extends PackageServiceProvider
 {
