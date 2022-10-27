@@ -14,6 +14,9 @@ abstract class Command extends BaseCommand
         parent::__construct();
     }
 
+    /**
+     * @param  array<string, string|int>  $arguments
+     */
     protected function runCommand($command, array $arguments, OutputInterface $output)
     {
         return $this->resolveCommand($command)->run(

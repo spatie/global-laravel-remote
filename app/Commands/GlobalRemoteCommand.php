@@ -10,7 +10,7 @@ class GlobalRemoteCommand extends Command
 
     public $description = 'Execute commands on a remote server';
 
-    public function handle()
+    public function handle(): int
     {
         $command = $this->argument('rawCommand');
         $host = $this->option('host') ?? config('remote.default_host');
@@ -19,7 +19,7 @@ class GlobalRemoteCommand extends Command
             $this->components->warn('Host does not exist: '.$host);
 
             if (! $this->components->confirm('Would you like to create it?')) {
-                return 0;
+                return self::FAILURE;
             }
 
             $this->createHost($host);
@@ -39,7 +39,7 @@ class GlobalRemoteCommand extends Command
     {
         $host = $this->ask('Host?', 'localhost');
         $user = $this->ask('User?', 'root');
-        $port = $this->ask('Port?', 22);
+        $port = $this->ask('Port?', '22');
         $path = $this->ask('Path?', '/');
 
         $this->config->setHost($name, [

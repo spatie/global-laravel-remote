@@ -2,13 +2,12 @@ includes:
     - phpstan-baseline.neon
 
 parameters:
-    level: 4
+    level: 8
     paths:
-        - src
+        - app
         - config
-        - database
+    excludePaths:
+        - app/Support/GitHub/Enums
     tmpDir: build/phpstan
-    checkOctaneCompatibility: true
-    checkModelProperties: true
-    checkMissingIterableValueType: false
-
+    checkMissingIterableValueType: true
+    checkGenericClassInNonGenericObjectType: false

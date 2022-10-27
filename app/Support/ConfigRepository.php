@@ -5,8 +5,7 @@ namespace App\Support;
 use Spatie\Valuestore\Valuestore;
 
 /**
- * @property-read ?string $accessToken
- * @property-read ?string $gitHubUsername
+ * @property-read ?array $hosts
  */
 class ConfigRepository
 {
@@ -19,6 +18,9 @@ class ConfigRepository
         $this->valuestore = Valuestore::make($path);
     }
 
+    /**
+     * @param  array<string, string>  $host
+     */
     public function setHost(string $name, array $host = []): self
     {
         $this->valuestore->put([
