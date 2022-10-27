@@ -24,6 +24,8 @@ class GlobalRemoteCommand extends Command
         return $this->call(RemoteCommand::class, [
             'rawCommand' => $command,
             '--host' => $host,
+            '--raw' => $this->option('raw'),
+            '--debug' => $this->option('debug'),
         ]);
     }
 
