@@ -1,11 +1,9 @@
 .idea
+.php_cs
+.php_cs.cache
 .phpunit.result.cache
 build
-composer.lock
 coverage
-docs
 phpunit.xml
-phpstan.neon
-testbench.yaml
+psalm.xml
 vendor
-node_modules

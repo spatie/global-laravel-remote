@@ -21,16 +21,16 @@
     ],
     "require": {
         "php": "^8.1",
-        "spatie/laravel-package-tools": "^1.13.0",
-        "illuminate/contracts": "^9.0"
+        "laravel-zero/framework": "^9.2",
+        "nunomaduro/termwind": "^1.14",
+        "spatie/laravel-remote": "^1.3",
+        "spatie/valuestore": "^1.3"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^6.0",
         "nunomaduro/larastan": "^2.0.1",
-        "orchestra/testbench": "^7.0",
         "pestphp/pest": "^1.21",
-        "pestphp/pest-plugin-laravel": "^1.1",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
@@ -39,39 +39,30 @@
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\GlobalLaravelRemote\\": "src",
-            "Spatie\\GlobalLaravelRemote\\Database\\Factories\\": "database/factories"
+            "App\\": "app/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\GlobalLaravelRemote\\Tests\\": "tests"
+            "Tests\\": "tests/"
         }
     },
     "scripts": {
-        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
         "analyse": "vendor/bin/phpstan analyse",
+        "build": "php global-laravel-remote app:build global-laravel-remote",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint"
     },
     "config": {
+        "preferred-install": "dist",
         "sort-packages": true,
+        "optimize-autoloader": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "phpstan/extension-installer": true
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Spatie\\GlobalLaravelRemote\\GlobalLaravelRemoteServiceProvider"
-            ],
-            "aliases": {
-                "GlobalLaravelRemote": "Spatie\\GlobalLaravelRemote\\Facades\\GlobalLaravelRemote"
-            }
+            "pestphp/pest-plugin": true
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "bin": ["global-laravel-remote"]
 }
