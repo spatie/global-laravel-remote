@@ -16,6 +16,12 @@ class GlobalRemoteCommand extends Command
         $host = $this->option('host') ?? config('remote.default_host');
 
         if (! ($this->config->hosts[$host] ?? null)) {
+            $this->components->warn('The host does not exist: '.$host);
+
+            if (! $this->components->confirm('Would you like to create it?')) {
+                return 0;
+            }
+
             $this->createHost($host);
         }
 
@@ -29,12 +35,12 @@ class GlobalRemoteCommand extends Command
         ]);
     }
 
-    protected function createHost($name)
+    protected function createHost(string $name): void
     {
-        $host = $this->ask('What is your host?', 'localhost');
-        $user = $this->ask('What is your user?', 'root');
-        $port = $this->ask('What is your port?', 22);
-        $path = $this->ask('What is the path', '/');
+        $host = $this->ask('Host?', 'localhost');
+        $user = $this->ask('User?', 'root');
+        $port = $this->ask('Port?', 22);
+        $path = $this->ask('Path?', '/');
 
         $this->config->setHost($name, [
             'host' => $host,
