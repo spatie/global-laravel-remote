@@ -1,4 +1,4 @@
-``# Execute artisan commands on your server
+# Execute artisan commands on your server
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/global-laravel-remote.svg?style=flat-square)](https://packagist.org/packages/spatie/global-laravel-remote)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/spatie/global-laravel-remote/run-tests?label=tests)](https://github.com/spatie/global-laravel-remote/actions?query=workflow%3Arun-tests+branch%3Amain)
