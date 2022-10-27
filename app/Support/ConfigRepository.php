@@ -22,9 +22,9 @@ class ConfigRepository
     public function setHost(string $name, array $host = []): self
     {
         $this->valuestore->put([
-            "hosts" => [
+            'hosts' => [
                 $name => $host,
-            ]
+            ],
         ]);
 
         return $this;
@@ -49,7 +49,7 @@ class ConfigRepository
                 return null;
             }
 
-            $homeDirectory = $_SERVER['HOMEDRIVE'] . $_SERVER['HOMEPATH'];
+            $homeDirectory = $_SERVER['HOMEDRIVE'].$_SERVER['HOMEPATH'];
 
             return rtrim($homeDirectory, DIRECTORY_SEPARATOR);
         }
