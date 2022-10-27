@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Spatie\GlobalLaravelRemote\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class GlobalLaravelRemoteCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'global-laravel-remote';
 
     public $description = 'My command';
 
