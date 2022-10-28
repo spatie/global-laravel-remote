@@ -22,8 +22,6 @@ abstract class Command extends BaseCommand
 
         $answer = ask(self::getAskTemplate($question, $default)) ?? $default;
 
-        $this->output->writeln('');
-
         return $answer;
     }
 
