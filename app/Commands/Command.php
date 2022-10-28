@@ -20,14 +20,7 @@ abstract class Command extends BaseCommand
     {
         renderUsing($this->output);
 
-        $defaultText = $default ? "[<span class='text-yellow'>$default</span>]" : '';
-
-        $answer = ask(<<<HTML
-            <span class="ml-2 ">
-                <span class="font-bold">{$question}</span> {$defaultText}<br>
-                <span class="mr-1 font-bold">❯</span>
-            </span>
-        HTML) ?? $default;
+        $answer = ask(self::getAskTemplate($question, $default)) ?? $default;
 
         $this->output->writeln('');
 
@@ -42,5 +35,17 @@ abstract class Command extends BaseCommand
         return $this->resolveCommand($command)->run(
             $this->createInputFromArguments($arguments), $output
         );
+    }
+
+    public static function getAskTemplate(string $question, ?string $default = null): string
+    {
+        $defaultText = $default ? "[<span class='text-yellow'>$default</span>]" : '';
+
+        return <<<HTML
+            <span class="ml-2">
+                <span class="font-bold">{$question}</span> {$defaultText}<br>
+                <span class="mr-1 font-bold">❯</span>
+            </span>
+        HTML;
     }
 }
