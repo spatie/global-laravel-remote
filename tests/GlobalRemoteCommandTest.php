@@ -3,6 +3,7 @@
 use App\Commands\GlobalRemoteCommand;
 use App\Support\ConfigRepository;
 use Spatie\Remote\Commands\RemoteCommand;
+use Mockery as m;
 
 it('runs the remote command for an host', function () {
     (new ConfigRepository)->setHost('default', [
@@ -12,8 +13,7 @@ it('runs the remote command for an host', function () {
         'path' => '/',
     ]);
 
-    $mock = Mockery::mock(RemoteCommand::class);
-    $this->swap(RemoteCommand::class, $mock);
+    $this->swap(RemoteCommand::class, $mock = m::mock(RemoteCommand::class));
 
     $mock
         ->shouldIgnoreMissing()
