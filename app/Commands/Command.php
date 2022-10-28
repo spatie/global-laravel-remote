@@ -5,6 +5,8 @@ namespace App\Commands;
 use App\Support\ConfigRepository;
 use LaravelZero\Framework\Commands\Command as BaseCommand;
 use Symfony\Component\Console\Output\OutputInterface;
+use function Termwind\ask;
+use function Termwind\renderUsing;
 
 abstract class Command extends BaseCommand
 {
@@ -12,6 +14,24 @@ abstract class Command extends BaseCommand
         public ConfigRepository $config,
     ) {
         parent::__construct();
+    }
+
+    public function ask($question, $default = null)
+    {
+        renderUsing($this->output);
+
+        $defaultText = $default ? "[<span class='text-yellow'>$default</span>]" : '';
+
+        $answer = ask(<<<HTML
+            <span class="ml-2 ">
+                <span class="font-bold">{$question}</span> {$defaultText}<br>
+                <span class="mr-1 font-bold">❯</span>
+            </span>
+        HTML) ?? $default;
+
+        $this->output->writeln('');
+
+        return $answer;
     }
 
     /**

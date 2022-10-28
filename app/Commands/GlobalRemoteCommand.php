@@ -82,7 +82,7 @@ class GlobalRemoteCommand extends Command
 
         $this->config->setHost($alias, [
             'host' => $host,
-            'port' => $port,
+            'port' => (int) $port,
             'user' => $user,
             'path' => $path,
         ]);
