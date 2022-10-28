@@ -66,5 +66,5 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "bin": ["global-laravel-remote"]
+    "bin": ["builds/global-laravel-remote"]
 }
