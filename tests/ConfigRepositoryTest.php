@@ -2,7 +2,7 @@
 
 use App\Support\ConfigRepository;
 
-it('can store and forget a token', function () {
+it('can store and forget an host', function () {
     $config = new ConfigRepository();
 
     $config->setHost('default', [
@@ -21,4 +21,26 @@ it('can store and forget a token', function () {
 
     $config->forgetHost('default');
     expect($config->default)->toBeNull();
+});
+
+it('can flush all hosts', function () {
+    $config = new ConfigRepository();
+
+    $config->setHost('example1', [
+        'host' => 'example1.com',
+        'user' => 'root',
+        'port' => 22,
+        'path' => '/',
+    ]);
+
+    $config->setHost('example2', [
+        'host' => 'example2.com',
+        'user' => 'root',
+        'port' => 22,
+        'path' => '/',
+    ]);
+
+    $config->flush();
+
+    expect($config->all())->toHaveCount(0);
 });
