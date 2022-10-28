@@ -11,7 +11,7 @@ class FlushCommand extends Command
     public function handle(): int
     {
         $this->config->flush();
-        $this->components->info("All hosts removed");
+        $this->components->info('All hosts removed');
 
         return self::SUCCESS;
     }
