@@ -1,5 +1,7 @@
 <?php
 
-uses(\Tests\Support\TestCase::class)->in(__DIR__);
+use App\Support\ConfigRepository;
 
-beforeEach(fn () => (new ConfigRepository)->flush());
+uses(\Tests\Support\TestCase::class)
+    ->beforeEach(fn () => (new ConfigRepository)->flush())
+    ->in(__DIR__);
