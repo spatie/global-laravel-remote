@@ -13,14 +13,20 @@ class GlobalRemoteCommand extends Command
     public function handle(): int
     {
         $command = $this->argument('rawCommand');
+
+        /** @var string|null */
         $host = $this->option('host');
 
         if (! $host) {
             $host = $this->selectFromHosts() ?? $this->promptToCreate();
         }
 
-        if (! ($this->config->{$host} ?? null)) {
+        if ($host && ! $this->config->{$host}) {
             $host = $this->promptToCreateNew($host);
+        }
+
+        if (! $host) {
+            return self::FAILURE;
         }
 
         config()->set('remote.hosts', $this->config->all());
@@ -33,32 +39,32 @@ class GlobalRemoteCommand extends Command
         ]);
     }
 
-    protected function promptToCreate(): string|false
+    protected function promptToCreate(): string|null
     {
         $this->components->warn('There are no hosts created');
 
         if (! $this->components->confirm('Would you like to create one?')) {
-            return false;
+            return null;
         }
 
         return $this->createHost();
     }
 
-    protected function promptToCreateNew(): string|false
+    protected function promptToCreateNew(string $host): string|null
     {
         $this->components->warn('Host does not exist: '.$host);
 
         if (! $this->components->confirm('Would you like to create it?')) {
-            return false;
+            return null;
         }
 
         return $this->createHost($host);
     }
 
-    protected function selectFromHosts(): string|false
+    protected function selectFromHosts(): string|null
     {
         if (count($this->config->all()) === 0) {
-            return false;
+            return null;
         }
 
         return $this->components->choice(

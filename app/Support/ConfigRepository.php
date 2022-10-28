@@ -18,6 +18,9 @@ class ConfigRepository
         $this->valuestore = Valuestore::make($path);
     }
 
+    /**
+     * @return array<string, array<string, string>>
+     */
     public function all(): array
     {
         return $this->valuestore->all();
@@ -28,7 +31,7 @@ class ConfigRepository
      */
     public function setHost(string $name, array $host = []): self
     {
-        $this->valuestore->put($name, $host);
+        $this->valuestore->put([$name => $host]);
 
         return $this;
     }
