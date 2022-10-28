@@ -22,7 +22,7 @@ class GlobalRemoteCommand extends Command
         }
 
         if ($host && ! $this->config->{$host}) {
-            $host = $this->promptToCreateNew($host);
+            $host = $this->promptToCreate($host);
         }
 
         if (! $host) {
@@ -39,26 +39,19 @@ class GlobalRemoteCommand extends Command
         ]);
     }
 
-    protected function promptToCreate(): string|null
+    protected function promptToCreate(?string $alias = null): string|null
     {
-        $this->components->warn('There are no hosts created');
+        if ($alias) {
+            $this->components->warn("<options=bold>{$alias}</> does not exist.");
+        } else {
+            $this->components->warn('There are no hosts created');
+        }
 
         if (! $this->components->confirm('Would you like to create one?')) {
             return null;
         }
 
-        return $this->createHost();
-    }
-
-    protected function promptToCreateNew(string $host): string|null
-    {
-        $this->components->warn('Host does not exist: '.$host);
-
-        if (! $this->components->confirm('Would you like to create it?')) {
-            return null;
-        }
-
-        return $this->createHost($host);
+        return $this->createHost($alias);
     }
 
     protected function selectFromHosts(): string|null
@@ -76,24 +69,24 @@ class GlobalRemoteCommand extends Command
         );
     }
 
-    protected function createHost(?string $name = null): string
+    protected function createHost(?string $alias = null): string
     {
-        if (! $name) {
-            $name = $this->ask('Alias?');
+        if (! $alias) {
+            $alias = $this->ask('Alias?');
         }
 
-        $host = $this->ask('Host?', $name);
+        $host = $this->ask('Host?', $alias);
         $user = $this->ask('User?', 'root');
         $port = $this->ask('Port?', '22');
         $path = $this->ask('Path?', '/');
 
-        $this->config->setHost($name, [
+        $this->config->setHost($alias, [
             'host' => $host,
             'port' => $port,
             'user' => $user,
             'path' => $path,
         ]);
 
-        return $name;
+        return $alias;
     }
 }
