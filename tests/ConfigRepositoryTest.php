@@ -12,13 +12,13 @@ it('can store and forget a token', function () {
         'path' => '/',
     ]);
 
-    expect($config->hosts)->toBeArray();
-    expect($config->hosts['default'])
+    expect($config->default)->toBeArray();
+    expect($config->default)
         ->host->toBe('example.com')
         ->user->toBe('root')
         ->port->toBe(22)
         ->path->toBe('/');
 
-    $config->flush();
-    expect($config->hosts)->toBeNull();
+    $config->forgetHost('default');
+    expect($config->default)->toBeNull();
 });
