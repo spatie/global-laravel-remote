@@ -21,7 +21,7 @@ class GlobalRemoteCommand extends Command
             $host = $this->selectFromHosts() ?? $this->promptToCreate();
         }
 
-        if ($host && ! $this->config->{$host}) {
+        if (! $this->config->has($host ?? '')) {
             $host = $this->promptToCreate($host);
         }
 

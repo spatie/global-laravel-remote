@@ -27,7 +27,7 @@ class ConfigRepository
     }
 
     /**
-     * @param  array<string, string>  $host
+     * @param  array<string, string|int>  $host
      */
     public function setHost(string $name, array $host = []): self
     {
@@ -43,16 +43,21 @@ class ConfigRepository
         return $this;
     }
 
-    public function __get(string $name): mixed
-    {
-        return $this->valuestore->get($name);
-    }
-
     public function flush(): self
     {
         $this->valuestore->flush();
 
         return $this;
+    }
+
+    public function has(string $name): bool
+    {
+        return $this->valuestore->has($name);
+    }
+
+    public function __get(string $name): mixed
+    {
+        return $this->valuestore->get($name);
     }
 
     protected function findHomeDirectory(): ?string

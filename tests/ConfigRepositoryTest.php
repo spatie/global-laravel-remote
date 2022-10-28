@@ -44,3 +44,16 @@ it('can flush all hosts', function () {
 
     expect($config->all())->toHaveCount(0);
 });
+
+it('can check if an host exists', function () {
+    $config = new ConfigRepository();
+
+    $config->setHost('default', [
+        'host' => 'example1.com',
+        'user' => 'root',
+        'port' => 22,
+        'path' => '/',
+    ]);
+
+    expect($config->default)->not->toBeNull();
+});
