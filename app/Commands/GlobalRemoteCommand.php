@@ -13,17 +13,7 @@ class GlobalRemoteCommand extends Command
     public function handle(): int
     {
         $command = $this->argument('rawCommand');
-
-        /** @var string|null */
-        $host = $this->option('host');
-
-        if (! $host) {
-            $host = $this->selectFromHosts() ?? $this->promptToCreate();
-        }
-
-        if (! $this->config->has($host ?? '')) {
-            $host = $this->promptToCreate($host);
-        }
+        $host = $this->getHost();
 
         if (! $host) {
             return self::FAILURE;
@@ -37,6 +27,22 @@ class GlobalRemoteCommand extends Command
             '--raw' => $this->option('raw'),
             '--debug' => $this->option('debug'),
         ]);
+    }
+
+    protected function getHost(): string|null
+    {
+        /** @var string|null */
+        $host = $this->option('host');
+
+        if (! $host) {
+            $host = $this->selectFromHosts() ?? $this->promptToCreate();
+        }
+
+        if (! $this->config->has($host ?? '')) {
+            $host = $this->promptToCreate($host);
+        }
+
+        return $host;
     }
 
     protected function promptToCreate(?string $alias = null): string|null
