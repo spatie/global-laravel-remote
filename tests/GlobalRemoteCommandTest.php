@@ -3,7 +3,6 @@
 use App\Commands\GlobalRemoteCommand;
 use App\Support\ConfigRepository;
 use Spatie\Remote\Commands\RemoteCommand;
-use Symfony\Component\Console\Input\ArrayInput;
 
 it('runs the remote command for an host', function () {
     (new ConfigRepository)->setHost('default', [
@@ -20,8 +19,7 @@ it('runs the remote command for an host', function () {
         ->shouldIgnoreMissing()
         ->shouldReceive('run')
         ->once()
-        ->withArgs(fn ($input) =>
-            $input->getParameterOption('rawCommand') === 'test' &&
+        ->withArgs(fn ($input) => $input->getParameterOption('rawCommand') === 'test' &&
             $input->getParameterOption('--host') === 'default'
         );
 
@@ -29,5 +27,4 @@ it('runs the remote command for an host', function () {
         'rawCommand' => 'test',
         '--host' => 'default',
     ]);
-
 });
