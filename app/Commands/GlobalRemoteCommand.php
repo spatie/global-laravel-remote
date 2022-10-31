@@ -82,9 +82,9 @@ class GlobalRemoteCommand extends Command
         }
 
         $host = $this->ask('Host?', $alias);
-        $user = $this->ask('User?', 'root');
+        $user = $this->ask('User?', 'forge');
         $port = $this->ask('Port?', '22');
-        $path = $this->ask('Path?', '/');
+        $path = $this->ask('Path?', "/home/forge/{$host}");
 
         $this->config->setHost($alias, [
             'host' => $host,

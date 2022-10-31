@@ -61,9 +61,9 @@ it('creates an host and runs the remote command', function () {
         ->expectsConfirmation('Would you like to create one?', 'yes')
         ->expectsQuestion(question('Alias?'), 'default')
         ->expectsQuestion(question('Host?', 'default'), 'default')
-        ->expectsQuestion(question('User?', 'root'), 'root')
+        ->expectsQuestion(question('User?', 'forge'), 'root')
         ->expectsQuestion(question('Port?', '22'), '22')
-        ->expectsQuestion(question('Path?', '/'), '/');
+        ->expectsQuestion(question('Path?', '/home/forge/default'), '/');
 
     expect((object) $config->default)
         ->host->toBe('default')
