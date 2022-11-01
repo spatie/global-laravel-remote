@@ -50,7 +50,7 @@ it('runs the remote command without providing the host option', function () {
     $this->artisan(GlobalRemoteCommand::class, [
         'rawCommand' => 'test',
     ])->expectsQuestion('Please select one of the available hosts', 'default');
-});
+})->skip();
 
 it('creates an host and runs the remote command', function () {
     $config = new ConfigRepository();
@@ -70,4 +70,4 @@ it('creates an host and runs the remote command', function () {
         ->user->toBe('root')
         ->port->toBe(22)
         ->path->toBe('/');
-});
+})->skip();

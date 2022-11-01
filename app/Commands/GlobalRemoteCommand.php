@@ -66,13 +66,19 @@ class GlobalRemoteCommand extends Command
             return null;
         }
 
-        return $this->components->choice(
-            'Please select one of the available hosts',
-            array_map(
-                fn ($host) => $host['user'].'@'.$host['host'].':'.$host['path'],
-                $this->config->all()
-            )
-        );
+        $items = collect($this->config->all())->map(fn ($item, $key) => [
+            'key' => $key,
+            ...$item,
+        ])->values();
+
+        $items->push([
+            'key' => '[new]',
+            'label' => '<span class="text-gray">Create new</span>',
+        ]);
+
+        $active = $this->select('Please select one of the available hosts:', $items->all());
+
+        return $active['key'] === '[new]' ? $this->createHost() : $active['key'];
     }
 
     protected function createHost(?string $alias = null): string
