@@ -2,6 +2,10 @@
 
 All notable changes to `global-laravel-remote` will be documented in this file.
 
+## 0.0.3 - 2022-11-01
+
+**Full Changelog**: https://github.com/spatie/global-laravel-remote/compare/0.0.2...0.0.3
+
 ## 0.0.2 - 2022-10-30
 
 **Full Changelog**: https://github.com/spatie/global-laravel-remote/compare/0.0.1...0.0.2
