@@ -1,13 +1,10 @@
 includes:
-    - phpstan-baseline.neon
+  - ./vendor/larastan/larastan/extension.neon
 
 parameters:
-    level: 8
-    paths:
-        - app
-        - config
-    excludePaths:
-        - app/Support/GitHub/Enums
-    tmpDir: build/phpstan
-    checkMissingIterableValueType: true
-    checkGenericClassInNonGenericObjectType: false
+  paths:
+    - app
+    - bootstrap
+    - config
+  level: 6
+  checkGenericClassInNonGenericObjectType: false

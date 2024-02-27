@@ -2,32 +2,23 @@
 
 namespace App\Providers;
 
-use Illuminate\Console\Signals;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         //
     }
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        Signals::resolveAvailabilityUsing(function () {
-            return $this->app->runningInConsole()
-                && ! $this->app->runningUnitTests()
-                && extension_loaded('pcntl');
-        });
+        //
     }
 }

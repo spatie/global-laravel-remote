@@ -4,15 +4,24 @@ namespace App\Commands;
 
 use Spatie\Remote\Commands\RemoteCommand;
 
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\select;
+use function Laravel\Prompts\text;
+
 class GlobalRemoteCommand extends Command
 {
-    public $signature = 'global-remote {rawCommand} {--host=} {--raw} {--debug}';
+    public $signature = 'global-remote {rawCommand?} {--host=} {--raw} {--debug}';
 
     public $description = 'Execute commands on a remote server';
 
     public function handle(): int
     {
         $command = $this->argument('rawCommand');
+
+        if (! $command) {
+            $command = text('What command do you want to run on your server?', required: true);
+        }
+
         $host = $this->getHost();
 
         if (! $host) {
@@ -29,7 +38,7 @@ class GlobalRemoteCommand extends Command
         ]);
     }
 
-    protected function getHost(): string|null
+    protected function getHost(): ?string
     {
         /** @var string|null */
         $host = $this->option('host');
@@ -38,14 +47,14 @@ class GlobalRemoteCommand extends Command
             $host = $this->selectFromHosts() ?? $this->promptToCreate();
         }
 
-        if (! $this->config->has($host ?? '')) {
+        if ($host && ! $this->config->has($host)) {
             $host = $this->promptToCreate($host);
         }
 
         return $host;
     }
 
-    protected function promptToCreate(?string $alias = null): string|null
+    protected function promptToCreate(?string $alias = null): ?string
     {
         if ($alias) {
             $this->components->warn("<options=bold>{$alias}</> does not exist.");
@@ -53,44 +62,66 @@ class GlobalRemoteCommand extends Command
             $this->components->warn('There are no hosts created');
         }
 
-        if (! $this->components->confirm('Would you like to create one?')) {
+        if (! confirm('Would you like to create one?')) {
             return null;
         }
 
         return $this->createHost($alias);
     }
 
-    protected function selectFromHosts(): string|null
+    protected function selectFromHosts(): ?string
     {
         if (count($this->config->all()) === 0) {
             return null;
         }
 
-        $items = collect($this->config->all())->map(fn ($item, $key) => [
-            'key' => $key,
-            ...$item,
-        ])->values();
+        $hosts = collect($this->config->all())
+            ->mapWithKeys(fn ($item, $key) => [$key => $item['host']])
+            ->all();
 
-        $items->push([
-            'key' => '[new]',
-            'label' => '<span class="text-gray">Create new</span>',
-        ]);
+        $active = select(
+            label: 'Please select one of the available hosts:',
+            options: [
+                ...$hosts,
+                '[new]' => 'Create new',
+            ],
+        );
 
-        $active = $this->select('Please select one of the available hosts:', $items->all());
-
-        return $active['key'] === '[new]' ? $this->createHost() : $active['key'];
+        return $active === '[new]'
+            ? $this->createHost()
+            : $active;
     }
 
     protected function createHost(?string $alias = null): string
     {
         if (! $alias) {
-            $alias = $this->ask('Alias?');
+            $alias = text('Provide the alias for your host', required: true);
         }
 
-        $host = $this->ask('Host?', $alias);
-        $user = $this->ask('User?', 'forge');
-        $port = $this->ask('Port?', '22');
-        $path = $this->ask('Path?', "/home/forge/{$host}");
+        $host = text(
+            label: 'Provide the host',
+            default: $alias,
+            required: true,
+            hint: 'Ex. ssh.laravel.com'
+        );
+
+        $user = text(
+            label: 'Username',
+            required: true,
+            hint: 'Ex. forge',
+        );
+
+        $port = text(
+            label: 'Port',
+            default: '22',
+            required: true,
+        );
+
+        $path = text(
+            label: 'Path to the laravel codebase',
+            default: "/home/forge/{$host}",
+            required: true,
+        );
 
         $this->config->setHost($alias, [
             'host' => $host,
