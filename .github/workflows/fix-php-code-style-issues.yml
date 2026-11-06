@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - '**.php'
+      - '.github/workflows/fix-php-code-style-issues.yml'
 
 jobs:
   php-code-styling:
@@ -20,6 +21,10 @@ jobs:
         uses: aglipanci/laravel-pint-action@2.6
         with:
           onlyDiff: origin/main
+        env:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: safe.directory
+          GIT_CONFIG_VALUE_0: /github/workspace
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v7
