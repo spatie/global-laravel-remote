@@ -31,7 +31,7 @@
         "larastan/larastan": "^2.9",
         "laravel/pint": "^1.14",
         "mockery/mockery": "^1.6",
-        "pestphp/pest": "^2.22"
+        "phpunit/phpunit": "^10.5.66|^13.4.6"
     },
     "autoload": {
         "psr-4": {
@@ -48,7 +48,6 @@
         "sort-packages": true,
         "optimize-autoloader": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true,
             "phpstan/extension-installer": true
         }
     },

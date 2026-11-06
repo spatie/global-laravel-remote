@@ -14,9 +14,12 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: ${{ github.head_ref }}
+          fetch-depth: 0
 
       - name: Fix PHP code style issues
         uses: aglipanci/laravel-pint-action@2.6
+        with:
+          onlyDiff: origin/main
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v7
