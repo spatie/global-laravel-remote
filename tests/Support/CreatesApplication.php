@@ -12,6 +12,10 @@ trait CreatesApplication
 
         $app->make(Kernel::class)->bootstrap();
 
+        // Return error reporting to PHPUnit after Laravel Zero installs its handlers.
+        restore_error_handler();
+        restore_exception_handler();
+
         return $app;
     }
 }

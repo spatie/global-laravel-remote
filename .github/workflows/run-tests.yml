@@ -11,10 +11,10 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        php: [8.1, 8.2, 8.3]
+        php: ['8.1', '8.2', '8.3', '8.4', '8.5', '8.6']
 
     name: PHP ${{ matrix.php }} - ${{ matrix.os }}
 
@@ -40,6 +40,11 @@ jobs:
       - name: Install dependencies
         run: |
           composer install
+          php --version
+          composer show
+
+      - name: Smoke test source CLI bootstrap
+        run: php global-laravel-remote --version
 
       - name: Execute unit/feature tests
-        run: vendor/bin/pest
+        run: vendor/bin/phpunit --fail-on-risky --fail-on-warning --display-deprecations --display-phpunit-deprecations --display-notices --display-warnings

@@ -1,59 +1,67 @@
 <?php
 
+namespace Tests;
+
 use App\Support\ConfigRepository;
+use Tests\Support\TestCase;
 
-it('can store and forget an host', function () {
-    $config = new ConfigRepository();
+class ConfigRepositoryTest extends TestCase
+{
+    public function test_can_store_and_forget_an_host(): void
+    {
+        $config = new ConfigRepository;
 
-    $config->setHost('default', [
-        'host' => 'example.com',
-        'user' => 'root',
-        'port' => 22,
-        'path' => '/',
-    ]);
+        $config->setHost('default', [
+            'host' => 'example.com',
+            'user' => 'root',
+            'port' => 22,
+            'path' => '/',
+        ]);
 
-    expect($config->default)->toBeArray();
-    expect($config->default)
-        ->host->toBe('example.com')
-        ->user->toBe('root')
-        ->port->toBe(22)
-        ->path->toBe('/');
+        $this->assertIsArray($config->default);
+        $this->assertSame('example.com', $config->default['host']);
+        $this->assertSame('root', $config->default['user']);
+        $this->assertSame(22, $config->default['port']);
+        $this->assertSame('/', $config->default['path']);
 
-    $config->forgetHost('default');
-    expect($config->default)->toBeNull();
-});
+        $config->forgetHost('default');
+        $this->assertNull($config->default);
+    }
 
-it('can flush all hosts', function () {
-    $config = new ConfigRepository();
+    public function test_can_flush_all_hosts(): void
+    {
+        $config = new ConfigRepository;
 
-    $config->setHost('example1', [
-        'host' => 'example1.com',
-        'user' => 'root',
-        'port' => 22,
-        'path' => '/',
-    ]);
+        $config->setHost('example1', [
+            'host' => 'example1.com',
+            'user' => 'root',
+            'port' => 22,
+            'path' => '/',
+        ]);
 
-    $config->setHost('example2', [
-        'host' => 'example2.com',
-        'user' => 'root',
-        'port' => 22,
-        'path' => '/',
-    ]);
+        $config->setHost('example2', [
+            'host' => 'example2.com',
+            'user' => 'root',
+            'port' => 22,
+            'path' => '/',
+        ]);
 
-    $config->flush();
+        $config->flush();
 
-    expect($config->all())->toHaveCount(0);
-});
+        $this->assertCount(0, $config->all());
+    }
 
-it('can check if an host exists', function () {
-    $config = new ConfigRepository();
+    public function test_can_check_if_an_host_exists(): void
+    {
+        $config = new ConfigRepository;
 
-    $config->setHost('default', [
-        'host' => 'example1.com',
-        'user' => 'root',
-        'port' => 22,
-        'path' => '/',
-    ]);
+        $config->setHost('default', [
+            'host' => 'example1.com',
+            'user' => 'root',
+            'port' => 22,
+            'path' => '/',
+        ]);
 
-    expect($config->default)->not->toBeNull();
-});
+        $this->assertNotNull($config->default);
+    }
+}
